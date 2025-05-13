@@ -17,4 +17,6 @@ public interface UserMapper {
     void updateUser(@MappingTarget User user, UserUpdateRequest request);
 
     UserResponse toUserResponse(User user);
+
+    UserCreationRequest toUserCreationRequest(User user, String username);
 }
