@@ -4,7 +4,6 @@ import com.tuancui.identity_service.dto.request.UserCreationRequest;
 import com.tuancui.identity_service.dto.request.UserUpdateRequest;
 import com.tuancui.identity_service.dto.response.ApiResponse;
 import com.tuancui.identity_service.dto.response.UserResponse;
-import com.tuancui.identity_service.entity.User;
 import com.tuancui.identity_service.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
@@ -46,8 +45,18 @@ public class UserController {
     }
 
     @GetMapping("/{userId}")
-    private UserResponse getUser(@PathVariable("userId") String userId) {
-        return userService.getUserById(userId);
+    private ApiResponse<UserResponse> getUser(@PathVariable("userId") String userId) {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getUserById(userId))
+                .build();
+
+    }
+
+    @GetMapping("/myInfo")
+    private ApiResponse<UserResponse> getMyInfo() {
+        return ApiResponse.<UserResponse>builder()
+                .result(userService.getMyInfo())
+                .build();
     }
 
     @PutMapping("/{userId}")
@@ -56,7 +65,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{userId}")
-    private String deleteUser(@PathVariable("userId") String userId){
+    private String deleteUser(@PathVariable("userId") String userId) {
         userService.deleteUser(userId);
         return "User has been deleted";
     }
