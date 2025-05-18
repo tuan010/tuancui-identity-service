@@ -1,20 +1,18 @@
 package com.tuancui.identity_service.dto.response;
+
+import com.tuancui.identity_service.entity.Permission;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import java.time.LocalDate;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    String id;
-    String username;
-    String firstName;
-    String lastName;
-    LocalDate dob;
-//    Set<String> roles;
+public class RoleResponse {
+    String name;
+    String description;
+    Set<PermissionResponse> permissions;
 }
