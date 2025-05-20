@@ -1,6 +1,8 @@
 package com.tuancui.identity_service.configuration;
 
 import com.tuancui.identity_service.enums.Role;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,16 +25,18 @@ import javax.crypto.spec.SecretKeySpec;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@Slf4j(topic = "SECURITY_CONFIG")
 public class SecurityConfig {
 
     private final String[] PUBLIC_ENDPOINTS = {
             "/users", "/auth/*"
     };
 
-    @Value("${jwt.signerKey}")
-    private String SINGER_KEY;
+    @Autowired
+    private CustomJWTDecoder customJWTDecoder;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        log.info("start filterChain");
         // authorize api
         httpSecurity.authorizeHttpRequests(request ->
                 request.requestMatchers(HttpMethod.POST, PUBLIC_ENDPOINTS).permitAll()
@@ -45,7 +49,7 @@ public class SecurityConfig {
 
         //
         httpSecurity.oauth2ResourceServer(oauth2 ->
-                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(jwtDecoder())
+                oauth2.jwt(jwtConfigurer -> jwtConfigurer.decoder(customJWTDecoder)
                         .jwtAuthenticationConverter(jwtAuthenticationConverter()))
                         .authenticationEntryPoint(new JwtAuthenticationEntryPoint())
                 );
@@ -53,14 +57,14 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-    @Bean
-    JwtDecoder jwtDecoder(){
-        SecretKeySpec secretKeySpec = new SecretKeySpec(SINGER_KEY.getBytes(), "HS512");
-
-        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
-                .macAlgorithm(MacAlgorithm.HS512)
-                .build();
-    }
+//    @Bean
+//    JwtDecoder jwtDecoder(){
+//        SecretKeySpec secretKeySpec = new SecretKeySpec(SINGER_KEY.getBytes(), "HS512");
+//
+//        return NimbusJwtDecoder.withSecretKey(secretKeySpec)
+//                .macAlgorithm(MacAlgorithm.HS512)
+//                .build();
+//    }
 
     @Bean
     JwtAuthenticationConverter jwtAuthenticationConverter(){
