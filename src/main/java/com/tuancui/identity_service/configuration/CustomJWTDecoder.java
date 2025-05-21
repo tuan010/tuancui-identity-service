@@ -3,6 +3,7 @@ package com.tuancui.identity_service.configuration;
 import com.nimbusds.jose.JOSEException;
 import com.tuancui.identity_service.dto.request.IntrospectRequest;
 import com.tuancui.identity_service.service.AuthenticationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
@@ -16,6 +17,7 @@ import javax.crypto.spec.SecretKeySpec;
 import java.text.ParseException;
 import java.util.Objects;
 @Component
+@Slf4j(topic = "CUSTOM-JWT-DECODER")
 public class CustomJWTDecoder implements JwtDecoder {
 
         @Value("${jwt.signerKey}")
@@ -47,7 +49,7 @@ public class CustomJWTDecoder implements JwtDecoder {
                         .macAlgorithm(MacAlgorithm.HS512)
                         .build();
             }
-
             return nimbusJwtDecoder.decode(token);
         }
-    }
+}
+

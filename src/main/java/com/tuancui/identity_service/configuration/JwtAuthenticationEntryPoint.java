@@ -6,12 +6,14 @@ import com.tuancui.identity_service.exception.ErrorCode;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import java.io.IOException;
 
+@Slf4j(topic = "JWT-AUTHENTICATION-ENTRY-POINT")
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     @Override

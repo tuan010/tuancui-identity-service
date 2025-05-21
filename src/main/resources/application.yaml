@@ -15,3 +15,5 @@ server:
     context-path: /identity
 jwt:
   signerKey: "jcwIA57vo9jBNdTNPZaK5rth33TWtXK6PJWH/87GiX+JwzyYgFWO6hhjf2J8B8dk"
+  valid-duration: 20 # in second
+  refreshable-duration:  120 # in seconds
