@@ -148,7 +148,7 @@ public class AuthenticationService {
 
 
         var verified = signedJWT.verify(verifier);
-        if (!(verified && expiryTime.after(new Date()))) {
+        if (!verified || expiryTime.before(new Date())) {
             throw new AppException(ErrorCode.USER_UNAUTHENTICATED);
         }
 
