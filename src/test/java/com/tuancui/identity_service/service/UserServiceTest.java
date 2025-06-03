@@ -12,15 +12,18 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 @Slf4j
@@ -74,8 +77,8 @@ public class UserServiceTest {
     @Test
     void createUser_validRequest_success(){
         //GIVEN
-        Mockito.when(userRepository.existsByUsername(anyString())).thenReturn(false);
-        Mockito.when(userRepository.save(any())).thenReturn(user);
+        when(userRepository.existsByUsername(anyString())).thenReturn(false);
+        when(userRepository.save(any())).thenReturn(user);
 
         //WHEN
         var response =  userService.createUser(userCreationRequest);
@@ -88,7 +91,7 @@ public class UserServiceTest {
     @Test
     void createUser_userExisted_fail(){
         //GIVEN
-        Mockito.when(userRepository.existsByUsername(anyString())).thenReturn(true);
+        when(userRepository.existsByUsername(anyString())).thenReturn(true);
 
         //WHEN
         var exception = assertThrows(AppException.class, () -> userService.createUser(userCreationRequest));
@@ -96,6 +99,29 @@ public class UserServiceTest {
         assertThat(exception.getErrorCode().getCode()).isEqualTo(1002);
 
         //THEN
+
+    }
+
+    @Test
+    @WithMockUser(username = "john")
+    void getMyIfo_valid_success(){
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.of(user));
+
+        var response = userService.getMyInfo();
+
+        assertThat(response.getUsername()).isEqualTo("john");
+        assertThat(response.getId()).isEqualTo("d2e18e00");
+    }
+
+    @Test
+    @WithMockUser(username = "john")
+    void getMyIfo_userNotFound_error(){
+        when(userRepository.findByUsername(anyString())).thenReturn(Optional.ofNullable(null));
+
+        //WHEN
+        var exception = assertThrows(AppException.class, () -> userService.getMyInfo());
+
+        assertThat(exception.getErrorCode().getCode()).isEqualTo(1005);
 
     }
 

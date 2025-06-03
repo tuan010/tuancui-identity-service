@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-@SpringBootTest
+
 @Slf4j
 class IdentityServiceApplicationTests {
 
