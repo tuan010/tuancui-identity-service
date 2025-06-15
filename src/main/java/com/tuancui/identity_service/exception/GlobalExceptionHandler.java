@@ -6,15 +6,25 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.sql.SQLIntegrityConstraintViolationException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(value = Exception.class)
-    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException e) {
+//    @ExceptionHandler(value = Exception.class)
+//    ResponseEntity<ApiResponse> handlingRuntimeException(RuntimeException e) {
+//
+//        ApiResponse response = new ApiResponse();
+//        response.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
+//        response.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+//        return ResponseEntity.badRequest().body(response);
+//    }
 
+    @ExceptionHandler
+    ResponseEntity<ApiResponse> handlingSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e){
         ApiResponse response = new ApiResponse();
-        response.setCode(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode());
-        response.setMessage(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage());
+        response.setCode(ErrorCode.DUPLICATE_DATA.getCode());
+        response.setMessage(ErrorCode.DUPLICATE_DATA.getMessage());
         return ResponseEntity.badRequest().body(response);
     }
 

@@ -8,7 +8,10 @@ public enum ErrorCode {
     INVALID_MESSAGE_KEY(1004, "Invalid message key"),
     USER_NOT_FOUND(1005, "User not found"),
     BOOK_NOT_FOUND(2000, "Book not found"),
-    AUTHOR_NOT_FOUND(2001, "Author not found")
+    AUTHOR_NOT_FOUND(2001, "Author not found"),
+    CATEGORY_NOT_EXIST(2001, "Category does not exist"),
+    PUBLISHER_NOT_EXIST(2001, "Publisher does not exist"),
+    DUPLICATE_DATA(3001, "Data already added")
     ;
 
     private int code;

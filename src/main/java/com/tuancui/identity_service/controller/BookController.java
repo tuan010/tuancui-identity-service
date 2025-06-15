@@ -5,13 +5,11 @@ import com.tuancui.identity_service.dto.request.BookDetailRequest;
 import com.tuancui.identity_service.dto.response.ApiResponse;
 import com.tuancui.identity_service.dto.response.BookResponse;
 import com.tuancui.identity_service.entity.Book;
-import com.tuancui.identity_service.entity.BookDetail;
 import com.tuancui.identity_service.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/books")
@@ -51,11 +49,9 @@ public class BookController {
 
     @PostMapping("{bookId}/add")
     public ApiResponse<BookResponse> addBookDetail(@PathVariable("bookId") String bookId, @RequestBody BookDetailRequest bookDetail){
-        bookService.addBookDetail(bookId, bookDetail);
         return  ApiResponse.<BookResponse>builder()
                 .message("bookResponse")
-                .result(null)
+                .result(bookService.addBookDetail(bookId, bookDetail))
                 .build();
     }
-
 }

@@ -7,6 +7,7 @@ import com.tuancui.identity_service.entity.Publisher;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,7 +18,10 @@ public class BookResponse {
     private String id;
     private String title;
     private String author;
-    private Category category;
-    private Publisher publisher;
-    private Set<Author> authors;
+    private List<String> authorIds;
+    private Integer numberOfPages;
+    private String language;
+    private String category;
+    private String publisher;
+
 }
