@@ -6,7 +6,9 @@ public enum ErrorCode {
     USERNAME_INVALID(1003, "Username must be at least 3 characters"),
     PASSWORD_INVALID(1004, "Password must be at least 8 characters"),
     INVALID_MESSAGE_KEY(1004, "Invalid message key"),
-    USER_NOT_FOUND(1005, "User not found")
+    USER_NOT_FOUND(1005, "User not found"),
+    BOOK_NOT_FOUND(2000, "Book not found"),
+    AUTHOR_NOT_FOUND(2001, "Author not found")
     ;
 
     private int code;
