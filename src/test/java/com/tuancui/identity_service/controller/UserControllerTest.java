@@ -37,6 +37,8 @@ public class UserControllerTest {
 
     private UserCreationRequest userCreationRequest;
 
+    private UserCreationRequest request;
+
     private UserResponse userResponse;
 
     private LocalDate dob;
@@ -51,6 +53,14 @@ public class UserControllerTest {
                 .lastName("Doe")
                 .password("12345678")
                 .dob(dob)
+                .build();
+
+        request = UserCreationRequest.builder()
+                .username("tuan")
+                .firstName("Tuan")
+                .lastName("Nguyen")
+                .password("11111")
+                .dob(LocalDate.of(1995, 8, 21))
                 .build();
 
         userResponse = UserResponse.builder()
@@ -77,8 +87,6 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(content)).andExpect(status().isOk()).andExpect(jsonPath("code").value(1000))
                 .andExpect(jsonPath("result.id").value("d2e18e00"));
-
-
     }
 
     @Test
